@@ -140,6 +140,7 @@ import nmt {
     ./modules/services/sxhkd
     ./modules/services/syncthing
     ./modules/services/trayer
+    ./modules/services/twmn
     ./modules/services/window-managers/bspwm
     ./modules/services/window-managers/i3
     ./modules/services/window-managers/sway
