@@ -41,7 +41,8 @@ in {
     extraConfig = mkOption {
       type = types.attrs;
       default = { };
-      example = literalExpression ''{ main.activation_command = "\${pkgs.hello}/bin/hello"; }'';
+      example = literalExpression
+        ''{ main.activation_command = "\${pkgs.hello}/bin/hello"; }'';
       description = ''
         Extra configuration options to add to the twmnd config file. See
         <link xlink:href="https://github.com/sboli/twmn/blob/master/README.md">
@@ -202,7 +203,8 @@ in {
               duration = 618;
             }
           '';
-          description = "Options for the notification disappearance's animation.";
+          description =
+            "Options for the notification disappearance's animation.";
         };
 
         bounce = {
@@ -320,8 +322,7 @@ in {
           foreground_color = cfg.text.color;
           height = toString cfg.window.height;
           in_animation = toString cfg.window.animation.easeIn.curve;
-          in_animation_duration =
-            toString cfg.window.animation.easeIn.duration;
+          in_animation_duration = toString cfg.window.animation.easeIn.duration;
           max_length = toString
             (if isNull cfg.text.maxLength then -1 else cfg.text.maxLength);
           offset_x = with cfg.window.offset;
