@@ -10,8 +10,8 @@ let
       default = 38;
       example = 19;
       description = ''
-        the qt easing-curve animation to use for the animation, See
-        <link href="https://doc.qt.io/qt-5/qeasingcurve.html#Type-enum">
+        The qt easing-curve animation to use for the animation. See
+        <link xlink:href="https://doc.qt.io/qt-5/qeasingcurve.html#Type-enum">
         QEasingCurve documentation</link>.
       '';
     };
@@ -19,7 +19,7 @@ let
       type = types.ints.unsigned;
       default = 1000;
       example = 618;
-      description = "the animation duration in milliseconds.";
+      description = "The animation duration in milliseconds.";
     };
   };
 in {
@@ -31,17 +31,17 @@ in {
       default = 3000;
       example = 5000;
       description = ''
-        the time each notification remains visible, in milliseconds.
+        The time each notification remains visible, in milliseconds.
       '';
     };
-    enable = mkEnableOption "tiling window manager notification daemon";
+    enable = mkEnableOption "twmn, a tiling window manager notification daemon";
     extraConfig = mkOption {
       type = types.attrs;
       default = { };
-      example = { main.activation_command = "\${pkgs.hello}/bin/hello"; };
+      example = literalExpression ''{ main.activation_command = "\${pkgs.hello}/bin/hello"; }'';
       description = ''
-        extra configuration options to add to the twmnd config file. See
-        <link href="https://github.com/sboli/twmn/blob/master/README.md">
+        Extra configuration options to add to the twmnd config file. See
+        <link xlink:href="https://github.com/sboli/twmn/blob/master/README.md">
         twmn's README</link>.
       '';
     };
@@ -49,23 +49,23 @@ in {
       type = types.str;
       default = "127.0.0.1";
       example = "laptop.lan";
-      description = "host address to listen on for notifications";
+      description = "Host address to listen on for notifications.";
     };
     icons = {
       critical = mkOption {
         type = types.nullOr types.path;
         default = null;
-        description = "path to the critical notifications' icon";
+        description = "Path to the critical notifications' icon.";
       };
       info = mkOption {
         type = types.nullOr types.path;
         default = null;
-        description = "path to the informative notifications' icon";
+        description = "Path to the informative notifications' icon.";
       };
       warning = mkOption {
         type = types.nullOr types.path;
         default = null;
-        description = "path to the warning notifications' icon";
+        description = "Path to the warning notifications' icon.";
       };
     };
     port = mkOption {
@@ -78,14 +78,14 @@ in {
       default = null;
       example = 0;
       description = ''
-        screen number to display notifications on when using a multi-head
+        Screen number to display notifications on when using a multi-head
         desktop.
       '';
     };
     soundCommand = mkOption {
       type = types.str;
       default = "";
-      description = "command to execute to play a notification's sound";
+      description = "Command to execute to play a notification's sound.";
     };
     text = {
       color = mkOption {
@@ -93,7 +93,7 @@ in {
         default = "#999999";
         example = "lightgray";
         description = ''
-          notification's text color, RGB hex and keywords (e.g. lightgray)
+          Notification's text color. RGB hex and keywords (e.g. <literal>lightgray</literal>)
           are supported.
         '';
       };
@@ -103,7 +103,7 @@ in {
           default = null;
           example = literalExpression "pkgs.dejavu_fonts";
           description = ''
-            notification text's font package. If <literal>null</literal> then
+            Notification text's font package. If <literal>null</literal> then
             the font is assumed to already be available in your profile.
           '';
         };
@@ -111,13 +111,13 @@ in {
           type = types.str;
           default = "Sans";
           example = "Noto Sans";
-          description = "notification text's font family.";
+          description = "Notification text's font family.";
         };
         size = mkOption {
           type = types.ints.unsigned;
           default = 13;
           example = 42;
-          description = "notification text's font size.";
+          description = "Notification text's font size.";
         };
         variant = mkOption {
           # These are the font variant supported by twmn
@@ -143,7 +143,7 @@ in {
           ];
           default = "medium";
           example = "heavy";
-          description = "notification text's font variant.";
+          description = "Notification text's font variant.";
         };
       };
       maxLength = mkOption {
@@ -151,46 +151,45 @@ in {
         default = null;
         example = 80;
         description = ''
-          maximum length of the text before it is cut and suffixed with "...".
-          Never cuts if <literal>null</literal>
+          Maximum length of the text before it is cut and suffixed with "...".
+          Never cuts if <literal>null</literal>.
         '';
       };
     };
     window = {
       alwaysOnTop =
-        mkEnableOption "forcing the notification window to be always on top";
+        mkEnableOption "forcing the notification window to always be on top";
       animation = {
         easeIn = mkOption {
           type = types.submodule { options = animationOpts; };
           default = { };
-          example = {
-            curve = 19;
-            duration = 618;
-          };
-          description = ''
-            options for the notification appearance's animation.
+          example = literalExpression ''
+            {
+              curve = 19;
+              duration = 618;
+            }
           '';
+          description = "Options for the notification appearance's animation.";
         };
         easeOut = mkOption {
           type = types.submodule { options = animationOpts; };
           default = { };
-          example = {
-            curve = 19;
-            duration = 618;
-          };
-          description = ''
-            options for the notification disappearance's animation.
+          example = literalExpression ''
+            {
+              curve = 19;
+              duration = 618;
+            }
           '';
+          description = "Options for the notification disappearance's animation.";
         };
         bounce = {
-          enable = mkEnableOption ''
-            notification bounce when displaying next notification directly.
-          '';
+          enable = mkEnableOption
+            "notification bounce when displaying next notification directly.";
           duration = mkOption {
             type = types.ints.unsigned;
             default = 500;
             example = 618;
-            description = "the bounce animation duration in milliseconds.";
+            description = "The bounce animation duration in milliseconds.";
           };
         };
       };
@@ -199,8 +198,8 @@ in {
         default = "#000000";
         example = "lightgray";
         description = ''
-          notification's background color, RGB hex and keywords (e.g.
-          lightgray) are supported.
+          Notification's background color. RGB hex and keywords (e.g.
+          <literal>lightgray</literal>) are supported.
         '';
       };
       height = mkOption {
@@ -218,7 +217,7 @@ in {
           default = 0;
           example = 50;
           description = ''
-            offset of the notification' slide starting point in pixels on the
+            Offset of the notification's slide starting point in pixels on the
             horizontal axis (positive is rightward).
           '';
         };
@@ -227,7 +226,7 @@ in {
           default = 0;
           example = -100;
           description = ''
-            offset of the notification' slide starting point in pixels on the
+            Offset of the notification's slide starting point in pixels on the
             vertical axis (positive is upward).
           '';
         };
@@ -236,7 +235,7 @@ in {
         type = types.ints.between 0 100;
         default = 100;
         example = 80;
-        description = "the notification window's opacity.";
+        description = "The notification window's opacity.";
       };
       position = mkOption {
         type = types.enum [
@@ -258,7 +257,7 @@ in {
         default = "top_right";
         example = "bottom_left";
         description = ''
-          position of the notification slide. The notification will slide
+          Position of the notification slide. The notification will slide
           in vertically from the border if placed in
           <literal>top_center</literal> or <literal>bottom_center</literal>,
           horizontally otherwise.
