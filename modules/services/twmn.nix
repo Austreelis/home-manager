@@ -306,63 +306,59 @@ in {
       lib.optional (!isNull cfg.text.font.package) cfg.text.font.package
       ++ [ pkgs.twmn ];
 
-    home.file."twmn.conf" = {
-      target = ".config/twmn/twmn.conf";
-      text = let
-        conf = recursiveUpdate {
-          gui = {
-            always_on_top = if cfg.window.alwaysOnTop then "true" else "false";
-            background_color = cfg.window.color;
-            bounce =
-              if cfg.window.animation.bounce.enable then "true" else "false";
-            bounce_duration = toString cfg.window.animation.bounce.duration;
-            font = cfg.text.font.family;
-            font_size = toString cfg.text.font.size;
-            font_variant = cfg.text.font.variant;
-            foreground_color = cfg.text.color;
-            height = toString cfg.window.height;
-            in_animation = toString cfg.window.animation.easeIn.curve;
-            in_animation_duration =
-              toString cfg.window.animation.easeIn.duration;
-            max_length = toString
-              (if isNull cfg.text.maxLength then -1 else cfg.text.maxLength);
-            offset_x = with cfg.window.offset;
-              if x < 0 then toString x else "+${toString x}";
-            offset_y = with cfg.window.offset;
-              if y < 0 then toString y else "+${toString y}";
-            opacity = toString cfg.window.opacity;
-            out_animation = toString cfg.window.animation.easeOut.curve;
-            out_animation_duration =
-              toString cfg.window.animation.easeOut.duration;
-            position = cfg.window.position;
-            screen = toString cfg.screen;
-          };
-          # map null values to empty strings because formats.toml generator fails
-          # when encountering a null.
-          icons = mapAttrs (_: toString) cfg.icons;
-          main = {
-            duration = toString cfg.duration;
-            host = cfg.host;
-            port = toString cfg.port;
-            sound_command = cfg.soundCommand;
-          };
-        } cfg.extraConfig;
-        mkLine = name: value: "${name}=${value}";
-        mkSection = section: conf: ''
-          [${section}]
-          ${concatStringsSep "\n" (mapAttrsToList mkLine conf)}
-        '';
-      in concatStringsSep "\n" (mapAttrsToList mkSection conf) + "\n";
-    };
+    xdg.configFile."twmn/twmn.conf".text = let
+      conf = recursiveUpdate {
+        gui = {
+          always_on_top = if cfg.window.alwaysOnTop then "true" else "false";
+          background_color = cfg.window.color;
+          bounce =
+            if cfg.window.animation.bounce.enable then "true" else "false";
+          bounce_duration = toString cfg.window.animation.bounce.duration;
+          font = cfg.text.font.family;
+          font_size = toString cfg.text.font.size;
+          font_variant = cfg.text.font.variant;
+          foreground_color = cfg.text.color;
+          height = toString cfg.window.height;
+          in_animation = toString cfg.window.animation.easeIn.curve;
+          in_animation_duration =
+            toString cfg.window.animation.easeIn.duration;
+          max_length = toString
+            (if isNull cfg.text.maxLength then -1 else cfg.text.maxLength);
+          offset_x = with cfg.window.offset;
+            if x < 0 then toString x else "+${toString x}";
+          offset_y = with cfg.window.offset;
+            if y < 0 then toString y else "+${toString y}";
+          opacity = toString cfg.window.opacity;
+          out_animation = toString cfg.window.animation.easeOut.curve;
+          out_animation_duration =
+            toString cfg.window.animation.easeOut.duration;
+          position = cfg.window.position;
+          screen = toString cfg.screen;
+        };
+        # map null values to empty strings because formats.toml generator fails
+        # when encountering a null.
+        icons = mapAttrs (_: toString) cfg.icons;
+        main = {
+          duration = toString cfg.duration;
+          host = cfg.host;
+          port = toString cfg.port;
+          sound_command = cfg.soundCommand;
+        };
+      } cfg.extraConfig;
+      mkLine = name: value: "${name}=${value}";
+      mkSection = section: conf: ''
+        [${section}]
+        ${concatStringsSep "\n" (mapAttrsToList mkLine conf)}
+      '';
+    in concatStringsSep "\n" (mapAttrsToList mkSection conf) + "\n";
 
     systemd.user.services.twmnd = {
       Unit = {
         Description = "twmn daemon";
         After = [ "graphical-session-pre.target" ];
         PartOf = [ "graphical-session.target" ];
-        X-Restart-Triggers = [
-          "${config.home.homeDirectory}/${config.home.file."twmn.conf".target}"
-        ];
+        X-Restart-Triggers = with config.xdg;
+          [ "${configHome}/${configFile."twmn/twmn.conf".target}" ];
       };
 
       Install.WantedBy = [ "graphical-session.target" ];
