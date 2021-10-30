@@ -38,7 +38,7 @@ in {
     extraConfig = mkOption {
       type = types.attrs;
       default = { };
-      example = { main.activation_command = "\${pkgs.hello}/nim/hello"; };
+      example = { main.activation_command = "\${pkgs.hello}/bin/hello"; };
       description = ''
         extra configuration options to add to the twmnd config file. See
         <link href="https://github.com/sboli/twmn/blob/master/README.md">
