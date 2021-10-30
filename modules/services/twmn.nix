@@ -15,6 +15,7 @@ let
         QEasingCurve documentation</link>.
       '';
     };
+
     duration = mkOption {
       type = types.ints.unsigned;
       default = 1000;
@@ -34,7 +35,9 @@ in {
         The time each notification remains visible, in milliseconds.
       '';
     };
+
     enable = mkEnableOption "twmn, a tiling window manager notification daemon";
+
     extraConfig = mkOption {
       type = types.attrs;
       default = { };
@@ -45,34 +48,40 @@ in {
         twmn's README</link>.
       '';
     };
+
     host = mkOption {
       type = types.str;
       default = "127.0.0.1";
       example = "laptop.lan";
       description = "Host address to listen on for notifications.";
     };
+
     icons = {
       critical = mkOption {
         type = types.nullOr types.path;
         default = null;
         description = "Path to the critical notifications' icon.";
       };
+
       info = mkOption {
         type = types.nullOr types.path;
         default = null;
         description = "Path to the informative notifications' icon.";
       };
+
       warning = mkOption {
         type = types.nullOr types.path;
         default = null;
         description = "Path to the warning notifications' icon.";
       };
     };
+
     port = mkOption {
       type = types.port;
       default = 9797;
       description = "UDP port to listen on for notifications.";
     };
+
     screen = mkOption {
       type = types.nullOr types.int;
       default = null;
@@ -82,12 +91,15 @@ in {
         desktop.
       '';
     };
+
     soundCommand = mkOption {
       type = types.str;
       default = "";
       description = "Command to execute to play a notification's sound.";
     };
+
     text = {
+
       color = mkOption {
         type = types.str;
         default = "#999999";
@@ -97,6 +109,7 @@ in {
           are supported.
         '';
       };
+
       font = {
         package = mkOption {
           type = types.nullOr types.package;
@@ -107,18 +120,21 @@ in {
             the font is assumed to already be available in your profile.
           '';
         };
+
         family = mkOption {
           type = types.str;
           default = "Sans";
           example = "Noto Sans";
           description = "Notification text's font family.";
         };
+
         size = mkOption {
           type = types.ints.unsigned;
           default = 13;
           example = 42;
           description = "Notification text's font size.";
         };
+
         variant = mkOption {
           # These are the font variant supported by twmn
           # See https://github.com/sboli/twmn/blob/master/README.md?plain=1#L42
@@ -146,6 +162,7 @@ in {
           description = "Notification text's font variant.";
         };
       };
+
       maxLength = mkOption {
         type = types.nullOr types.ints.unsigned;
         default = null;
@@ -156,10 +173,14 @@ in {
         '';
       };
     };
+
     window = {
+
       alwaysOnTop =
         mkEnableOption "forcing the notification window to always be on top";
+
       animation = {
+
         easeIn = mkOption {
           type = types.submodule { options = animationOpts; };
           default = { };
@@ -171,6 +192,7 @@ in {
           '';
           description = "Options for the notification appearance's animation.";
         };
+
         easeOut = mkOption {
           type = types.submodule { options = animationOpts; };
           default = { };
@@ -182,9 +204,12 @@ in {
           '';
           description = "Options for the notification disappearance's animation.";
         };
+
         bounce = {
+
           enable = mkEnableOption
             "notification bounce when displaying next notification directly.";
+
           duration = mkOption {
             type = types.ints.unsigned;
             default = 500;
@@ -193,6 +218,7 @@ in {
           };
         };
       };
+
       color = mkOption {
         type = types.str;
         default = "#000000";
@@ -202,6 +228,7 @@ in {
           <literal>lightgray</literal>) are supported.
         '';
       };
+
       height = mkOption {
         type = types.ints.unsigned;
         default = 18;
@@ -211,7 +238,9 @@ in {
           manager's bar.
         '';
       };
+
       offset = {
+
         x = mkOption {
           type = types.int;
           default = 0;
@@ -221,6 +250,7 @@ in {
             horizontal axis (positive is rightward).
           '';
         };
+
         y = mkOption {
           type = types.int;
           default = 0;
@@ -231,12 +261,14 @@ in {
           '';
         };
       };
+
       opacity = mkOption {
         type = types.ints.between 0 100;
         default = 100;
         example = 80;
         description = "The notification window's opacity.";
       };
+
       position = mkOption {
         type = types.enum [
           "tr"
